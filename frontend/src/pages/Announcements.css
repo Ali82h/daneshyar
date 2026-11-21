@@ -1,0 +1,160 @@
+
+.announcements-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.announcement-card {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 22px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+}
+
+.announcement-card-content {
+	flex: 1;
+	min-width: 0;
+}
+
+.announcement-card-content h3 {
+	margin: 0 0 12px;
+	color: #1f2937;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.announcement-card-content p {
+	margin: 0;
+	color: #64748b;
+	font-size: 14px;
+	line-height: 2;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.announcement-card-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.announcement-card-actions button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #fff;
+	color: #64748b;
+	cursor: pointer;
+}
+
+.announcement-card-actions button:hover {
+	background: #f1f5f9;
+	color: #2563eb;
+}
+
+.announcements-empty {
+	padding: 35px 20px;
+	text-align: center;
+	color: #64748b;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+}
+
+@media (max-width: 600px) {
+	.announcement-card {
+		padding: 16px;
+		gap: 12px;
+	}
+
+	.announcement-card-content h3 {
+		font-size: 14px;
+	}
+
+	.announcement-card-content p {
+		font-size: 13px;
+	}
+
+	.announcement-card-actions {
+		flex-direction: column;
+	}
+}
+
+.announcement-meta {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.announcement-type,
+.announcement-status {
+	display: inline-flex;
+	align-items: center;
+	padding: 5px 10px;
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.announcement-type.general {
+	background: #eff6ff;
+	color: #2563eb;
+}
+
+.announcement-type.important {
+	background: #fff7ed;
+	color: #ea580c;
+}
+
+.announcement-type.warning {
+	background: #fef2f2;
+	color: #dc2626;
+}
+
+.announcement-status.published {
+	background: #ecfdf5;
+	color: #059669;
+}
+
+.announcement-status.draft {
+	background: #f1f5f9;
+	color: #64748b;
+}
+
+
+.announcement-card {
+	position: relative;
+	overflow: hidden;
+}
+
+.announcement-card.important {
+	border-right: 4px solid #f59e0b;
+}
+
+.announcement-card.warning {
+	border-right: 4px solid #ef4444;
+}
+.announcement-date,
+.announcement-time {
+	color: #94a3b8;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 400;
+	white-space: nowrap;
+}
+.announcement-datetime {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	direction: ltr;
+}

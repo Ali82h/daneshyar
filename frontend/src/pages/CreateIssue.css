@@ -1,0 +1,255 @@
+
+.create-issue-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.create-issue-heading h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 23px;
+  font-weight: 800;
+}
+.create-issue-heading span {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.create-issue-heading p {
+  margin: 9px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.issue-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  padding: 25px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  margin-bottom: 23px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-primary);
+}
+
+.form-section-heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.form-section-heading p {
+  margin: 5px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  outline: none;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-family: var(--font-primary);
+  font-size: 12px;
+  transition: var(--transition-fast);
+}
+
+.form-group input,
+.form-group select {
+  min-height: 45px;
+}
+
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.9;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--color-primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.character-count {
+  align-self: flex-end;
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.file-upload-area {
+  min-height: 175px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 25px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.file-upload-area:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.file-upload-area strong {
+  color: var(--color-text);
+  font-size: 12px;
+}
+
+.file-upload-area span {
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+.file-upload-area input {
+  display: none;
+}
+
+.selected-files {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.selected-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  color: var(--color-text-secondary);
+}
+
+.selected-file span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-file button {
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-danger);
+  cursor: pointer;
+}
+
+.selected-file button:hover {
+  background: var(--color-danger-bg);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.submit-issue-button {
+  min-width: 160px;
+  min-height: 45px;
+  padding: 0 25px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.submit-issue-button:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+  .form-section {
+    padding: 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .form-group.full-width {
+    grid-column: auto;
+  }
+
+  .create-issue-heading h1 {
+    font-size: 19px;
+  }
+
+  .submit-issue-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,270 @@
+.settings-page {
+	direction: rtl;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.settings-heading h1 {
+	margin: 0 0 8px;
+	color: #172d50;
+	font-size: 25px;
+}
+
+.settings-heading p {
+	margin: 0;
+	color: #7b8798;
+	font-size: 14px;
+}
+
+.settings-tabs {
+	display: flex;
+	gap: 10px;
+	border-bottom: 1px solid #e8edf4;
+}
+
+.settings-tabs button {
+	border: none;
+	background: transparent;
+	color: #718096;
+	padding: 13px 18px;
+	font-family: inherit;
+	font-size: 14px;
+	cursor: pointer;
+	border-bottom: 3px solid transparent;
+	transition: 0.2s;
+}
+
+.settings-tabs button:hover {
+	color: #4f6df5;
+}
+
+.settings-tabs button.active {
+	color: #4f6df5;
+	border-bottom-color: #4f6df5;
+	font-weight: 700;
+}
+
+.settings-content {
+	background: #fff;
+	border: 1px solid #e8edf4;
+	border-radius: 14px;
+	padding: 25px;
+}
+
+.settings-section h2 {
+	margin: 0 0 12px;
+	color: #172d50;
+	font-size: 18px;
+}
+
+.settings-section p {
+	margin: 0;
+	color: #7b8798;
+	font-size: 14px;
+	line-height: 1.9;
+}
+
+@media (max-width: 600px) {
+	.settings-heading h1 {
+		font-size: 21px;
+	}
+
+	.settings-content {
+		padding: 18px 14px;
+	}
+
+	.settings-tabs button {
+		padding: 12px 10px;
+		font-size: 13px;
+	}
+}
+.settings-profile-info {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-top: 22px;
+}
+
+.settings-profile-info > div {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 15px;
+	padding: 18px 5px;
+	border-bottom: 1px solid #edf0f5;
+}
+
+.settings-profile-info > div:last-child {
+	border-bottom: none;
+}
+
+.settings-profile-info span {
+	color: #7b8798;
+	font-size: 14px;
+}
+
+.settings-profile-info strong {
+	color: #172d50;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+@media (max-width: 600px) {
+	.settings-profile-info > div {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 8px;
+	}
+}
+.settings-edit-field {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 22px;
+	max-width: 500px;
+}
+
+.settings-edit-field label {
+	color: #52627a;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.settings-edit-field input {
+	width: 100%;
+	padding: 12px 14px;
+	border: 1px solid #dce3ed;
+	border-radius: 9px;
+	outline: none;
+	font-family: inherit;
+	font-size: 14px;
+	color: #172d50;
+	transition: 0.2s;
+}
+
+.settings-edit-field input:focus {
+	border-color: #4f6df5;
+	box-shadow: 0 0 0 3px rgba(79, 109, 245, 0.1);
+}
+
+.settings-form-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.settings-form-actions button,
+.settings-edit-button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.settings-form-actions button:first-child,
+.settings-edit-button {
+	background: #4f6df5;
+	color: #fff;
+}
+
+.settings-form-actions button:first-child:hover,
+.settings-edit-button:hover {
+	background: #3d59df;
+}
+
+.settings-form-actions button:last-child {
+	background: #edf0f5;
+	color: #52627a;
+}
+
+.settings-form-actions button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.settings-edit-button {
+	margin-top: 18px;
+}
+
+.settings-error,
+.settings-success {
+	margin-top: 14px !important;
+	font-size: 13px !important;
+}
+
+.settings-error {
+	color: #dc3545 !important;
+}
+
+.settings-success {
+	color: #198754 !important;
+}
+.settings-password-form {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-top: 10px;
+}
+
+.settings-password-form .settings-edit-field {
+	max-width: 500px;
+}
+
+.settings-password-form > button {
+	width: fit-content;
+	margin-top: 18px;
+	padding: 11px 22px;
+	border: none;
+	border-radius: 8px;
+	background: #4f6df5;
+	color: #fff;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.settings-password-form > button:hover {
+	background: #3d59df;
+}
+
+.settings-password-form > button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.settings-password-input {
+	position: relative;
+	width: 100%;
+}
+
+.settings-password-input input {
+	width: 100%;
+	padding-left: 45px;
+}
+
+.settings-password-input button {
+	position: absolute;
+	left: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 5px;
+	border: none;
+	background: transparent;
+	color: #7b8798;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.settings-password-input button:hover {
+	color: #4f6df5;
+}
