@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
-import "./Login.css";
+import "./login.css";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import API_BASE_URL from "../config";

@@ -10,7 +10,7 @@ import {
   EyeOff,
   ArrowLeft,
 } from "lucide-react";
-import "./Register.css";
+import "./register.css";
 
 function Register() {
   const navigate = useNavigate();
