@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import {
 	GraduationCap,
@@ -14,12 +13,11 @@ import {
 } from "lucide-react";
 import universityImage from "../assets/university.jpg";
 import "./Home.css";
-import { useEffect, useState } from "react";
-import API_BASE_URL from "../config";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function Home() {
-	const [user, setUser] = useState(null);
-	const [checkingSession, setCheckingSession] = useState(true);
+	const { user } = useAuth();
 	const [selectedFeature, setSelectedFeature] = useState(null);
 
 	const dashboardPaths = {
@@ -28,27 +26,6 @@ function Home() {
 		expert: "/expert/dashboard",
 	};
 
-	useEffect(() => {
-		const checkSession = async () => {
-			try {
-				const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-					credentials: "include",
-				});
-
-				const data = await response.json();
-
-				if (response.ok && data.user) {
-					setUser(data.user);
-				}
-			} catch (error) {
-				console.error("Session check failed:", error);
-			} finally {
-				setCheckingSession(false);
-			}
-		};
-
-		checkSession();
-	}, []);
 
 	useEffect(() => {
 		if (!selectedFeature) return;

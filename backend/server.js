@@ -12,7 +12,17 @@ const notificationsRoutes = require("./routes/notifications");
 const app = express();
 app.set("trust proxy", 1);
 const PORT = process.env.PORT || 5000;
+app.use((req, res, next) => {
+	const startTime = Date.now();
 
+	res.on("finish", () => {
+		console.log(
+			`[REQUEST] ${req.method} ${req.path} | ${res.statusCode} | ${Date.now() - startTime} ms`,
+		);
+	});
+
+	next();
+});
 const session = require("express-session");
 const PgSession = require("connect-pg-simple")(session);
 
@@ -57,9 +67,17 @@ app.use(async (req, res, next) => {
 	}
 
 	try {
+		const startTime = Date.now();
+
 		const result = await pool.query(
 			"SELECT is_active FROM users WHERE id = $1",
 			[userId],
+		);
+
+		const duration = Date.now() - startTime;
+
+		console.log(
+			`[DB] Active user check: ${duration} ms | ${req.method} ${req.originalUrl}`,
 		);
 
 		const user = result.rows[0];

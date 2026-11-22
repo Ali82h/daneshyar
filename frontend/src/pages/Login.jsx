@@ -1,56 +1,38 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
-import "./login.css";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import API_BASE_URL from "../config";
+import "./login.css";
 
 function Login() {
 	const navigate = useNavigate();
 	const location = useLocation();
+
+	const { user, setUser, loading: authLoading } = useAuth();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
-	const [checkingSession, setCheckingSession] = useState(true);
 
+	const destinations = {
+		student: "/student/dashboard",
+		manager: "/manager/dashboard",
+		expert: "/expert/dashboard",
+	};
+
+	// اگر کاربر از قبل وارد شده باشد، به داشبورد خودش منتقل شود.
 	useEffect(() => {
-		const checkSession = async () => {
-			try {
-				const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-					credentials: "include",
-				});
+		if (!authLoading && user) {
+			const destination = destinations[user.role];
 
-				const data = await response.json();
-
-				if (response.ok && data.user) {
-					const destinations = {
-						student: "/student/dashboard",
-						manager: "/manager/dashboard",
-						expert: "/expert/dashboard",
-					};
-
-					const destination = destinations[data.user.role];
-
-					if (destination) {
-						navigate(destination, {
-							replace: true,
-							state: { user: data.user },
-						});
-						return;
-					}
-				}
-			} catch (error) {
-				console.error("Session check failed:", error);
-			} finally {
-				setCheckingSession(false);
+			if (destination) {
+				navigate(destination, { replace: true });
 			}
-		};
-
-		checkSession();
-	}, [navigate]);
+		}
+	}, [authLoading, user, navigate]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -82,12 +64,6 @@ function Login() {
 				throw new Error(data.message || "ورود ناموفق بود.");
 			}
 
-			const destinations = {
-				student: "/student/dashboard",
-				manager: "/manager/dashboard",
-				expert: "/expert/dashboard",
-			};
-
 			const role = data.user?.role;
 			let destination = destinations[role];
 
@@ -102,9 +78,10 @@ function Login() {
 				destination = previousPath;
 			}
 
+			setUser(data.user);
+
 			navigate(destination, {
 				replace: true,
-				state: { user: data.user },
 			});
 		} catch (err) {
 			setError(
@@ -117,7 +94,7 @@ function Login() {
 		}
 	};
 
-	if (checkingSession) {
+	if (authLoading) {
 		return (
 			<main className="login-page" dir="rtl">
 				<section className="login-card">
@@ -126,6 +103,11 @@ function Login() {
 			</main>
 		);
 	}
+
+	if (user) {
+		return null;
+	}
+
 	return (
 		<main className="login-page" dir="rtl">
 			<section className="login-card">

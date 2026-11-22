@@ -18,5 +18,11 @@ pool.on("connect", () => {
 pool.on("error", (err) => {
 	console.error("Unexpected database error:", err);
 });
-
+setInterval(() => {
+	console.log("[POOL STATUS]", {
+		total: pool.totalCount,
+		idle: pool.idleCount,
+		waiting: pool.waitingCount,
+	});
+}, 10000);
 module.exports = pool;
