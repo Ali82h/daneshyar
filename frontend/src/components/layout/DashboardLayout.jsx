@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -8,7 +7,6 @@ import {
 	LayoutDashboard,
 	ClipboardList,
 	PlusCircle,
-	MapPin,
 	BarChart3,
 	Megaphone,
 	Settings,
@@ -16,6 +14,7 @@ import {
 	ChevronLeft,
 	Users,
 	Building2,
+	MoreHorizontal,
 } from "lucide-react";
 
 import "./DashboardLayout.css";
@@ -51,20 +50,70 @@ function DashboardLayout({
 	onLogout,
 }) {
 	const navigate = useNavigate();
+
 	const [showNotifications, setShowNotifications] = useState(false);
 	const [notifications, setNotifications] = useState([]);
 	const [unreadCount, setUnreadCount] = useState(0);
 	const [loadingNotifications, setLoadingNotifications] = useState(false);
+	const [mobileMenu, setMobileMenu] = useState(null);
 
 	const notificationRef = useRef(null);
+
+	const isExpert = user?.role === "expert";
+	const isManager = user?.role === "manager";
+
+	const menuItems = isManager
+		? managerMenuItems
+		: isExpert
+			? expertMenuItems
+			: studentMenuItems;
+
+	const roleLabel = isManager
+		? "مدیر سامانه"
+		: isExpert
+			? "کارشناس رسیدگی"
+			: "دانشجو";
+
+	const routes = isManager
+		? {
+				dashboard: "/manager/dashboard",
+				issues: "/manager/issues",
+				reports: "/manager/reports",
+				users: "/manager/users",
+				departments: "/manager/departments",
+				announcements: "/manager/announcements",
+			}
+		: isExpert
+			? {
+					dashboard: "/expert/dashboard",
+					issues: "/expert/issues",
+					reports: "/expert/reports",
+					announcements: "/expert/announcements",
+				}
+			: {
+					dashboard: "/student/dashboard",
+					create: "/student/issues/create",
+					issues: "/student/issues",
+					announcements: "/student/announcements",
+				};
+
+	const navigateTo = (path) => {
+		setMobileMenu(null);
+		setShowNotifications(false);
+		navigate(path);
+	};
+
+	const handleLogout = () => {
+		setMobileMenu(null);
+		onLogout?.();
+	};
+
 	useEffect(() => {
 		const fetchUnreadCount = async () => {
 			try {
 				const response = await fetch(
 					`${API_BASE_URL}/api/notifications/unread-count`,
-					{
-						credentials: "include",
-					},
+					{ credentials: "include" },
 				);
 
 				if (!response.ok) return;
@@ -78,6 +127,7 @@ function DashboardLayout({
 
 		fetchUnreadCount();
 	}, []);
+
 	useEffect(() => {
 		if (!showNotifications) return;
 
@@ -85,9 +135,7 @@ function DashboardLayout({
 			try {
 				const response = await fetch(
 					`${API_BASE_URL}/api/notifications/unread-count`,
-					{
-						credentials: "include",
-					},
+					{ credentials: "include" },
 				);
 
 				if (!response.ok) return;
@@ -99,18 +147,13 @@ function DashboardLayout({
 			}
 		};
 
-		fetchUnreadCount();
-
 		const fetchNotifications = async () => {
 			setLoadingNotifications(true);
 
 			try {
-				const response = await fetch(
-					`${API_BASE_URL}/api/notifications`,
-					{
-						credentials: "include",
-					},
-				);
+				const response = await fetch(`${API_BASE_URL}/api/notifications`, {
+					credentials: "include",
+				});
 
 				if (!response.ok) return;
 
@@ -123,8 +166,10 @@ function DashboardLayout({
 			}
 		};
 
+		fetchUnreadCount();
 		fetchNotifications();
 	}, [showNotifications]);
+
 	useEffect(() => {
 		if (!showNotifications) return;
 
@@ -143,21 +188,6 @@ function DashboardLayout({
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [showNotifications]);
-
-	const isExpert = user?.role === "expert";
-	const isManager = user?.role === "manager";
-
-	const menuItems = isManager
-		? managerMenuItems
-		: isExpert
-			? expertMenuItems
-			: studentMenuItems;
-
-	const roleLabel = isManager
-		? "مدیر سامانه"
-		: isExpert
-			? "کارشناس رسیدگی"
-			: "دانشجو";
 
 	const handleReadAllNotifications = async () => {
 		try {
@@ -209,12 +239,11 @@ function DashboardLayout({
 			setShowNotifications(false);
 
 			if (notification.issue_id) {
-				const basePath =
-					user?.role === "manager"
-						? "/manager/issues"
-						: user?.role === "expert"
-							? "/expert/issues"
-							: "/student/issues";
+				const basePath = isManager
+					? "/manager/issues"
+					: isExpert
+						? "/expert/issues"
+						: "/student/issues";
 
 				navigate(`${basePath}/${notification.issue_id}`);
 			}
@@ -222,6 +251,27 @@ function DashboardLayout({
 			console.error("Notification click error:", error);
 		}
 	};
+
+	const mobileMenuItems = isManager
+		? [
+				{ label: "خانه", id: "dashboard", icon: LayoutDashboard },
+				{ label: "درخواست‌ها", id: "issues", icon: ClipboardList },
+				{ label: "گزارش‌ها", id: "reports", icon: BarChart3 },
+				{ label: "اطلاعیه‌ها", id: "announcements", icon: Megaphone },
+			]
+		: isExpert
+			? [
+					{ label: "خانه", id: "dashboard", icon: LayoutDashboard },
+					{ label: "درخواست‌ها", id: "issues", icon: ClipboardList },
+					{ label: "گزارش‌ها", id: "reports", icon: BarChart3 },
+					{ label: "اطلاعیه‌ها", id: "announcements", icon: Megaphone },
+				]
+			: [
+					{ label: "خانه", id: "dashboard", icon: LayoutDashboard },
+					{ label: "ثبت مشکل", id: "create", icon: PlusCircle },
+					{ label: "مشکلات من", id: "issues", icon: ClipboardList },
+					{ label: "اطلاعیه‌ها", id: "announcements", icon: Megaphone },
+				];
 
 	return (
 		<div className="dashboard-layout" dir="rtl">
@@ -259,32 +309,7 @@ function DashboardLayout({
 								className={`sidebar-menu-item ${isActive ? "active" : ""}`}
 								type="button"
 								onClick={() => {
-									const routes = isManager
-										? {
-												dashboard: "/manager/dashboard",
-												issues: "/manager/issues",
-												reports: "/manager/reports",
-												users: "/manager/users",
-												departments: "/manager/departments",
-												announcements: "/manager/announcements",
-											}
-										: isExpert
-											? {
-													dashboard: "/expert/dashboard",
-													issues: "/expert/issues",
-													reports: "/expert/reports",
-													announcements: "/expert/announcements",
-												}
-											: {
-													dashboard: "/student/dashboard",
-													create: "/student/issues/create",
-													issues: "/student/issues",
-													announcements: "/student/announcements",
-												};
-
-									if (routes[item.id]) {
-										navigate(routes[item.id]);
-									}
+									if (routes[item.id]) navigateTo(routes[item.id]);
 								}}
 							>
 								<Icon size={19} strokeWidth={1.8} />
@@ -299,7 +324,7 @@ function DashboardLayout({
 					<button
 						className={`sidebar-menu-item ${activeItem === "settings" ? "active" : ""}`}
 						type="button"
-						onClick={() => navigate("/settings")}
+						onClick={() => navigateTo("/settings")}
 					>
 						<Settings size={19} />
 						<span>تنظیمات</span>
@@ -309,7 +334,7 @@ function DashboardLayout({
 					<button
 						className="sidebar-menu-item logout-button"
 						type="button"
-						onClick={onLogout}
+						onClick={handleLogout}
 					>
 						<LogOut size={19} />
 						<span>خروج از حساب</span>
@@ -354,6 +379,7 @@ function DashboardLayout({
 									</span>
 								)}
 							</button>
+
 							{showNotifications && (
 								<div className="notifications-dropdown">
 									<div className="notifications-header">
@@ -409,20 +435,118 @@ function DashboardLayout({
 							)}
 						</div>
 
-						<div className="header-profile">
-							<div className="header-avatar">
-								<UserRound size={19} />
+						<div className="header-profile-wrapper">
+							<div
+								className="header-profile"
+								role="button"
+								tabIndex={0}
+								onClick={() =>
+									setMobileMenu((prev) =>
+										prev === "profile" ? null : "profile",
+									)
+								}
+								onKeyDown={(event) => {
+									if (event.key === "Enter" || event.key === " ") {
+										event.preventDefault();
+										setMobileMenu((prev) =>
+											prev === "profile" ? null : "profile",
+										);
+									}
+								}}
+							>
+								<div className="header-avatar">
+									<UserRound size={19} />
+								</div>
+								<div>
+									<strong>{user?.full_name || "کاربر دانشگاه"}</strong>
+									<span>{roleLabel}</span>
+								</div>
 							</div>
-							<div>
-								<strong>{user?.full_name || "کاربر دانشگاه"}</strong>
-								<span>{roleLabel}</span>
-							</div>
+
+							{mobileMenu === "profile" && (
+								<div className="mobile-quick-menu">
+									<button type="button" onClick={() => navigateTo("/settings")}>
+										<Settings size={18} />
+										تنظیمات
+									</button>
+									<button type="button" onClick={handleLogout}>
+										<LogOut size={18} />
+										خروج از حساب
+									</button>
+								</div>
+							)}
 						</div>
 					</div>
 				</header>
 
 				<main className="dashboard-content">{children}</main>
 			</div>
+
+			<nav className="mobile-bottom-nav">
+				{mobileMenuItems.map((item) => {
+					const Icon = item.icon;
+					const isActive =
+						activeItem === item.id &&
+						mobileMenu !== "management" &&
+						mobileMenu !== "more";
+
+					return (
+						<button
+							key={item.id}
+							type="button"
+							className={`mobile-nav-item ${isActive ? "active" : ""}`}
+							onClick={() => navigateTo(routes[item.id])}
+						>
+							<Icon size={21} />
+							<span>{item.label}</span>
+						</button>
+					);
+				})}
+
+				{isManager && (
+					<>
+						<div className="mobile-nav-menu-wrapper">
+							{mobileMenu === "management" && (
+								<div className="mobile-quick-menu">
+									<button
+										type="button"
+										onClick={() => navigateTo(routes.users)}
+									>
+										<Users size={18} />
+										مدیریت کاربران
+									</button>
+
+									<button
+										type="button"
+										onClick={() => navigateTo(routes.departments)}
+									>
+										<Building2 size={18} />
+										مدیریت واحدها
+									</button>
+								</div>
+							)}
+
+							<button
+								type="button"
+								className={`mobile-nav-item ${
+									["users", "departments"].includes(activeItem) ||
+									mobileMenu === "management"
+										? "active"
+										: ""
+								}`}
+								onClick={() =>
+									setMobileMenu((prev) =>
+										prev === "management" ? null : "management",
+									)
+								}
+							>
+								<Building2 size={21} />
+								<span>مدیریت</span>
+							</button>
+						</div>
+					</>
+				)}
+			</nav>
 		</div>
 	);
 }
