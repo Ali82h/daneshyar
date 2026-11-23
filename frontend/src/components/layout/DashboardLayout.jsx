@@ -357,11 +357,6 @@ function DashboardLayout({
 						</div>
 					</div>
 
-					<div className="header-search">
-						<Search size={19} />
-						<input type="search" placeholder="جست‌وجو در سامانه..." />
-						<kbd>Ctrl + K</kbd>
-					</div>
 
 					<div className="header-actions">
 						<div className="notification-wrapper" ref={notificationRef}>

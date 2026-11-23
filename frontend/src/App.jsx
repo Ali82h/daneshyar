@@ -1,4 +1,3 @@
-
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 
@@ -33,9 +32,7 @@ function ProtectedRoute({ roles, children }) {
 
 	if (loading) {
 		return (
-			<p style={{ direction: "rtl", padding: "30px" }}>
-				در حال بررسی ورود...
-			</p>
+			<p style={{ direction: "rtl", padding: "30px" }}>در حال بررسی ورود...</p>
 		);
 	}
 
@@ -44,17 +41,12 @@ function ProtectedRoute({ roles, children }) {
 	}
 
 	if (roles && !roles.includes(user.role)) {
-		return (
-			<Navigate
-				to={dashboardPaths[user.role] || "/"}
-				replace
-			/>
-		);
+		return <Navigate to={dashboardPaths[user.role] || "/"} replace />;
 	}
 
 	const handleLogout = async () => {
-		await logout();
 		navigate("/", { replace: true });
+		await logout();
 	};
 
 	return children({
@@ -96,9 +88,7 @@ function StudentDashboardRoute() {
 function CreateIssueRoute() {
 	return (
 		<ProtectedRoute roles={["student"]}>
-			{({ user, onLogout }) => (
-				<CreateIssue user={user} onLogout={onLogout} />
-			)}
+			{({ user, onLogout }) => <CreateIssue user={user} onLogout={onLogout} />}
 		</ProtectedRoute>
 	);
 }
@@ -116,9 +106,7 @@ function MyIssuesRoute() {
 function IssueDetailsRoute() {
 	return (
 		<ProtectedRoute roles={["student", "manager", "expert"]}>
-			{({ user, onLogout }) => (
-				<IssueDetails user={user} onLogout={onLogout} />
-			)}
+			{({ user, onLogout }) => <IssueDetails user={user} onLogout={onLogout} />}
 		</ProtectedRoute>
 	);
 }
@@ -138,9 +126,7 @@ function ExpertDashboardRoute() {
 function ExpertIssuesRoute() {
 	return (
 		<ProtectedRoute roles={["expert"]}>
-			{({ user, onLogout }) => (
-				<ExpertIssues user={user} onLogout={onLogout} />
-			)}
+			{({ user, onLogout }) => <ExpertIssues user={user} onLogout={onLogout} />}
 		</ProtectedRoute>
 	);
 }
@@ -182,9 +168,7 @@ function ManagerReportsRoute() {
 function ManagerUsersRoute() {
 	return (
 		<ProtectedRoute roles={["manager"]}>
-			{({ user, onLogout }) => (
-				<ManagerUsers user={user} onLogout={onLogout} />
-			)}
+			{({ user, onLogout }) => <ManagerUsers user={user} onLogout={onLogout} />}
 		</ProtectedRoute>
 	);
 }
@@ -226,9 +210,7 @@ function AnnouncementsRoute({ role }) {
 function SettingsRoute() {
 	return (
 		<ProtectedRoute roles={["student", "manager", "expert"]}>
-			{({ user, onLogout }) => (
-				<Settings user={user} onLogout={onLogout} />
-			)}
+			{({ user, onLogout }) => <Settings user={user} onLogout={onLogout} />}
 		</ProtectedRoute>
 	);
 }
@@ -252,47 +234,20 @@ function App() {
 			<Route path="/login" element={<Login />} />
 			<Route path="/register" element={<Register />} />
 
-			<Route
-				path="/student/dashboard"
-				element={<StudentDashboardRoute />}
-			/>
-			<Route
-				path="/student/issues"
-				element={<MyIssuesRoute />}
-			/>
-			<Route
-				path="/student/issues/create"
-				element={<CreateIssueRoute />}
-			/>
-			<Route
-				path="/student/issues/:id"
-				element={<IssueDetailsRoute />}
-			/>
+			<Route path="/student/dashboard" element={<StudentDashboardRoute />} />
+			<Route path="/student/issues" element={<MyIssuesRoute />} />
+			<Route path="/student/issues/create" element={<CreateIssueRoute />} />
+			<Route path="/student/issues/:id" element={<IssueDetailsRoute />} />
 			<Route
 				path="/student/announcements"
 				element={<AnnouncementsRoute role="student" />}
 			/>
 
-			<Route
-				path="/manager/dashboard"
-				element={<ManagerDashboardRoute />}
-			/>
-			<Route
-				path="/manager/reports"
-				element={<ManagerReportsRoute />}
-			/>
-			<Route
-				path="/manager/issues"
-				element={<ManagerIssuesRoute />}
-			/>
-			<Route
-				path="/manager/issues/:id"
-				element={<IssueDetailsRoute />}
-			/>
-			<Route
-				path="/manager/users"
-				element={<ManagerUsersRoute />}
-			/>
+			<Route path="/manager/dashboard" element={<ManagerDashboardRoute />} />
+			<Route path="/manager/reports" element={<ManagerReportsRoute />} />
+			<Route path="/manager/issues" element={<ManagerIssuesRoute />} />
+			<Route path="/manager/issues/:id" element={<IssueDetailsRoute />} />
+			<Route path="/manager/users" element={<ManagerUsersRoute />} />
 			<Route
 				path="/manager/departments"
 				element={<ManagerDepartmentsRoute />}
@@ -302,22 +257,10 @@ function App() {
 				element={<AnnouncementsRoute role="manager" />}
 			/>
 
-			<Route
-				path="/expert/dashboard"
-				element={<ExpertDashboardRoute />}
-			/>
-			<Route
-				path="/expert/issues"
-				element={<ExpertIssuesRoute />}
-			/>
-			<Route
-				path="/expert/issues/:id"
-				element={<IssueDetailsRoute />}
-			/>
-			<Route
-				path="/expert/reports"
-				element={<ExpertReportsRoute />}
-			/>
+			<Route path="/expert/dashboard" element={<ExpertDashboardRoute />} />
+			<Route path="/expert/issues" element={<ExpertIssuesRoute />} />
+			<Route path="/expert/issues/:id" element={<IssueDetailsRoute />} />
+			<Route path="/expert/reports" element={<ExpertReportsRoute />} />
 			<Route
 				path="/expert/announcements"
 				element={<AnnouncementsRoute role="expert" />}
@@ -325,10 +268,7 @@ function App() {
 
 			<Route path="/settings" element={<SettingsRoute />} />
 
-			<Route
-				path="*"
-				element={<PlaceholderPage title="صفحه پیدا نشد" />}
-			/>
+			<Route path="*" element={<PlaceholderPage title="صفحه پیدا نشد" />} />
 		</Routes>
 	);
 }
